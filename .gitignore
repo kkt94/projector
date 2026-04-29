@@ -1,0 +1,238 @@
+# Data & models (large files)
+datasets/
+data/
+models/
+DAMO-NLP-SG/
+external/
+
+# Training outputs & checkpoints
+outputs/
+eval_results/
+stage2_eval_results/
+eval_results_bmr_v2/
+evals/
+experiment_archive/
+transfer_archives/
+
+# Stage directories (old training runs)
+a2_stage*/
+a3_stage*/
+a4_stage*/
+a4_v2_*/
+bmr_*/
+crt_*/
+mlp_*/
+tep_*/
+src/
+
+# Wandb & temp files
+wandb_logs*/
+tmp*/
+torchelastic_*/
+pymp-*/
+data-gym-cache/
+*.egg-info/
+__pycache__/
+*.pyc
+
+# HF cache
+.cache/
+
+# Weights
+*.pt
+*.bin
+*.safetensors
+*.pth
+
+# Videos & media
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.zip
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Misc
+perception_models/
+_honeybee_ref/
+app/
+comparison_report*.txt
+TVC_EXPERIMENT_REPORT.md
+
+# Old eval result JSONs in root
+*.json
+!requirements.json
+
+# Original perception-models apps (not our code)
+apps/detection/
+apps/segmentation/
+apps/video_cls/
+
+# PLM configs (YAML with model paths)
+apps/plm/configs/
+
+# Old scripts
+check_eval.py
+convert_bridge_weights.py
+debug_*.py
+extract_bridge*.py
+
+# Configs dir
+configs/
+
+# License files from original repo
+LICENSE.*
+
+# Original perception-models code (not our work)
+apps/pe/
+apps/plm/docs/
+apps/plm/consolidate*.py
+apps/plm/dataset_conf.py
+apps/plm/README.md
+core/vision_encoder/vjepa2*.py
+core/vision_encoder/pe_encoder.py
+core/depth_decoder/
+core/feature_decoder/
+core/segmentation/
+core/text_encoder/
+
+# Old dual_proj versions (keep only current)
+scripts/train_dual_proj_v[0-9]*.py
+scripts/train_dual_proj_v[0-9]_*.py
+scripts/train_dual_proj_fx_*.py
+scripts/train_dual_proj_tmem_*.py
+scripts/train_dual_proj.py
+scripts/train_dual_proj_v8*.py
+scripts/train_dual_proj_v9*.py
+scripts/train_dual_proj_v10*.py
+scripts/train_dual_proj_v11*.py
+scripts/train_dual_proj_v12*.py
+
+# Old stage2 variants
+scripts/train_temporal_expert_*.py
+scripts/train_v928_*.py
+scripts/train_stage2_*.py
+scripts/train_tmem_*.py
+scripts/train_gate_finetune_*.py
+
+# Shell scripts (too many, keep only current run scripts)
+scripts/*.sh
+!scripts/run_internvl3_*.sh
+!scripts/run_videollama3_*.sh
+
+# Eval scripts (keep only current)
+scripts/eval_*.py
+!scripts/eval_worldbench*.py
+!scripts/eval_cosmos*.py
+
+# Convert scripts
+scripts/convert_*.py
+
+# Other
+scripts/compute_*.py
+Videollama3ImageProcessor.json
+setup.py
+requirements.txt
+
+# Log files
+*.log
+*.log.*
+
+# Archive
+*.tar.gz
+
+# Dummy datasets
+apps/plm/dummy_datasets/
+apps/plm/notebook_demos/
+
+# macOS resource forks
+._*
+
+# Old training scripts
+scripts/train_dpm*.py
+scripts/train_dpt.py
+scripts/train_delta.py
+scripts/train_hier*.py
+scripts/train_pitr.py
+scripts/train_qces.py
+scripts/train_sr.py
+scripts/train_talo*.py
+scripts/train_temporal_mixer*.py
+scripts/train_tvc.py
+
+# Utility/debug scripts
+scripts/_*.py
+scripts/diag_*.py
+scripts/smoke_*.py
+scripts/test_*.py
+scripts/verify_*.py
+scripts/check_*.py
+scripts/compare_*.py
+scripts/detailed_*.py
+scripts/monitor_*.py
+scripts/parse_*.py
+scripts/rescore_*.py
+scripts/analyze_*.py
+scripts/probe_*.py
+scripts/layer_probe.py
+scripts/validate_*.py
+scripts/filter_*.py
+scripts/split_*.py
+scripts/expand_*.py
+scripts/prepare_*.py
+scripts/download_*.py
+scripts/build_*.py
+scripts/create_*.py
+scripts/export_*.py
+scripts/run_eval_*.py
+scripts/launch_*.py
+scripts/auto_eval_*.py
+
+# Old shell scripts in root
+run_*.sh
+
+# PLM old eval scripts
+apps/plm/eval_a2*.py
+apps/plm/generate.py
+apps/plm/interpolate_*.py
+apps/plm/scripts/
+
+# Old lmms wrappers
+apps/plm/lmms_bmr_v2_vllm.py
+apps/plm/lmms_plm_with_delta.py
+apps/plm/lmms_plm_with_dpt.py
+apps/plm/lmms_plm_with_hier*.py
+apps/plm/lmms_plm_with_mixer.py
+apps/plm/lmms_plm_with_pitr.py
+apps/plm/lmms_plm_with_qces.py
+apps/plm/lmms_plm_with_sr.py
+apps/plm/lmms_plm_with_talo.py
+apps/plm/lmms_plm_with_tvc.py
+apps/plm/lmms_tdi.py
+apps/plm/lmms_temporal_mixer.py
+apps/plm/lmms_tep.py
+
+# Old vision projector modules
+core/vision_projector/delta_tokens.py
+core/vision_projector/dpt.py
+core/vision_projector/hier_*.py
+core/vision_projector/pitr.py
+core/vision_projector/qces.py
+core/vision_projector/talo_aux.py
+core/vision_projector/tdi.py
+core/vision_projector/temporal_mixer_v5.py
+core/vision_projector/temporal_query_router.py
+core/vision_projector/tep.py
+core/vision_projector/tvc.py
+core/vision_projector/crt.py
+
+# Tests
+core/tests/
+
+# Stale top-level
+perception_models
