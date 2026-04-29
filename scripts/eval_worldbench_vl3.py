@@ -89,9 +89,11 @@ def load_expert(checkpoint_dir, model, device):
     with open(cfg_path) as f:
         cfg = json.load(f)
 
-    # Stage 2인 경우 stage1_config에서 expert 설정 가져옴
-    is_stage2 = cfg.get("module_type", "") == "videollama3_udh_v2_stage2_tqrouter"
-    expert_cfg = cfg.get("stage1_config", cfg) if is_stage2 else cfg
+    # Stage 2/3인 경우 stage1_config에서 expert 설정 가져옴
+    is_stage2_or_3 = cfg.get("module_type", "") in (
+        "videollama3_udh_v2_stage2_tqrouter", "videollama3_udh_v2_stage3_lora",
+    )
+    expert_cfg = cfg.get("stage1_config", cfg) if is_stage2_or_3 else cfg
 
     proj_dim = cfg.get("proj_dim", model.config.hidden_size)
     expert = SplitDualHeadExpert(
@@ -113,21 +115,32 @@ def load_expert(checkpoint_dir, model, device):
         print(f"  Expert no_gate=True (from stage1 video_only)")
     print(f"  Loaded expert from {checkpoint_dir}")
 
-    # TemporalQueryRouter 로드 (Stage 2 checkpoint인 경우)
+    # TemporalQueryRouter 로드 (Stage 2/3 checkpoint인 경우)
     tq_router = None
     tq_router_path = os.path.join(checkpoint_dir, "tq_router.pt")
     if os.path.exists(tq_router_path):
         from core.vision_projector.temporal_query_router import TemporalQueryRouter
+        s2_cfg = cfg.get("stage2_config", cfg)
+        router_hidden = cfg.get("router_hidden") or s2_cfg.get("router_hidden", 256)
+        router_init_bias = cfg.get("stage2_init_bias") or s2_cfg.get("stage2_init_bias", 0.0)
         tq_router = TemporalQueryRouter(
             feat_dim=proj_dim,
-            hidden_dim=cfg.get("router_hidden", 256),
-            init_bias=cfg.get("stage2_init_bias", 0.0),
+            hidden_dim=router_hidden,
+            init_bias=router_init_bias,
         ).to(device=device, dtype=torch.bfloat16)
         tq_router.load_state_dict(torch.load(tq_router_path, map_location=device, weights_only=True))
         tq_router.eval()
-        print(f"  Loaded TemporalQueryRouter from {checkpoint_dir}")
+        print(f"  Loaded TemporalQueryRouter from {checkpoint_dir} (hidden={router_hidden})")
 
-    return expert, cfg, tq_router
+    # Stage 3: LoRA 로드
+    lora_dir = os.path.join(checkpoint_dir, "lora")
+    if os.path.isdir(lora_dir):
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, lora_dir).to(device=device, dtype=torch.bfloat16)
+        model.eval()
+        print(f"  Loaded LoRA from {lora_dir}")
+
+    return expert, cfg, tq_router, model
 
 
 def evaluate(args):
@@ -151,7 +164,7 @@ def evaluate(args):
     expert_cfg = None
     tq_router = None
     if args.checkpoint_dir and os.path.isdir(args.checkpoint_dir):
-        expert, expert_cfg, tq_router = load_expert(args.checkpoint_dir, model, device)
+        expert, expert_cfg, tq_router, model = load_expert(args.checkpoint_dir, model, device)
 
     # Fixed resolution for expert
     patch_size = 14
@@ -228,7 +241,8 @@ def evaluate(args):
                 if tq_router is not None:
                     q_ids = processor.tokenizer(prompt, return_tensors="pt").input_ids.to(device)
                     with torch.no_grad():
-                        q_emb_all = model.get_model().embed_tokens(q_ids)  # (1, seq, D)
+                        _raw = model.base_model.model if hasattr(model, "peft_config") else model
+                        q_emb_all = _raw.get_model().embed_tokens(q_ids)  # (1, seq, D)
                         q_embed_for_router = q_emb_all.mean(dim=1)  # (1, D)
 
                 def make_hook(T_val, q_embed=None):

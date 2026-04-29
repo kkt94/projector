@@ -124,6 +124,10 @@ scripts/train_gate_finetune_*.py
 scripts/*.sh
 !scripts/run_internvl3_*.sh
 !scripts/run_videollama3_*.sh
+!scripts/run_unified_abc.sh
+!scripts/run_stage1_skip_norm.sh
+!scripts/run_stage3_router_lora.sh
+!scripts/run_vl3_stage2_router.sh
 
 # Eval scripts (keep only current)
 scripts/eval_*.py
@@ -194,7 +198,7 @@ scripts/launch_*.py
 scripts/auto_eval_*.py
 
 # Old shell scripts in root
-run_*.sh
+/run_*.sh
 
 # PLM old eval scripts
 apps/plm/eval_a2*.py
@@ -226,7 +230,7 @@ core/vision_projector/qces.py
 core/vision_projector/talo_aux.py
 core/vision_projector/tdi.py
 core/vision_projector/temporal_mixer_v5.py
-core/vision_projector/temporal_query_router.py
+# core/vision_projector/temporal_query_router.py  # now tracked
 core/vision_projector/tep.py
 core/vision_projector/tvc.py
 core/vision_projector/crt.py
