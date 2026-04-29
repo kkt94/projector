@@ -128,6 +128,8 @@ scripts/*.sh
 !scripts/run_stage1_skip_norm.sh
 !scripts/run_stage3_router_lora.sh
 !scripts/run_vl3_stage2_router.sh
+!scripts/run_vl3_unified_abc.sh
+!scripts/run_plm_unified_abc.sh
 
 # Eval scripts (keep only current)
 scripts/eval_*.py
