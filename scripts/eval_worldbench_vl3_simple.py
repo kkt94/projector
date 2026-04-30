@@ -99,8 +99,7 @@ def main() -> int:
     ap.add_argument("--base_model", default="models/VideoLLaMA3-7B")
     ap.add_argument("--data_dir", default="datasets/eval/WorldBench")
     ap.add_argument("--gpu", type=int, default=0)
-    ap.add_argument("--num_frames", type=int, default=32,
-                    help="Match training num_frames (default 32 for VL3 run01).")
+    ap.add_argument("--num_frames", type=int, default=16)
     ap.add_argument("--image_size", type=int, default=384)
     ap.add_argument("--patch_size", type=int, default=14)
     ap.add_argument("--merge_size", type=int, default=2)
